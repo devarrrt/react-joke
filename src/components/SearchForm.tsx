@@ -1,15 +1,20 @@
 import React from 'react'
 
-interface Props {
-	
+interface ISearchForm {
+	searchTerm: string
+	onChangeSearch: (e: React.FormEvent<HTMLInputElement>)=>void
 }
 
 
 
-const SearchForm = (props: Props) => {
+const SearchForm:React.FC<ISearchForm> = ({ searchTerm, onChangeSearch }) => {
 	return (
 		<div>
-			
+			<input type="text" 
+			value={ searchTerm }
+			onChange={ onChangeSearch }
+			placeholder="Введите слово для поиска анектодов..." />
+
 		</div>
 	)
 }
