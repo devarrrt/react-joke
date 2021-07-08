@@ -9,12 +9,14 @@ interface ISearchForm {
 
 const SearchForm:React.FC<ISearchForm> = ({ searchTerm, onChangeSearch }) => {
 	return (
-		<div>
+		<div className="search">
 			<input type="text" 
 			name="searchTerm"
 			value={ searchTerm }
 			onChange={ onChangeSearch }
-			placeholder="Enter a search word..." />
+			placeholder="Enter a search word..." 
+			className="search_input"
+			/>
 		</div>
 	)
 }
