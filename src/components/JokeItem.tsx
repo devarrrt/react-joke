@@ -10,11 +10,11 @@ interface IJokeItem extends IJoke {
 }
 
 const JokeItem: React.FC<IJokeItem> = ({ setup, joke, type }) => {
-const [likes, seTlikes] = useState(false)
+const [likes, seTlikes] = useState<boolean>(false)
 
 
 const onChangeLike = () => {
-	seTlikes( true )
+	seTlikes( !likes )
 }
 
 	return (

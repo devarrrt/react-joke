@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import { IJoke } from './types';
 import JokeItem from './components/JokeItem';
@@ -8,35 +8,40 @@ import { SearchForm } from './components';
 
 
 const App = () => {
-const [jokes, setJokes] = useState<IJoke[]>([])
-const [searchTerm, setSearchTerm] = useState("")
-const [loading, setLoading] = useState<boolean>(false)
-
-const onChangeSearch = ( e: React.FormEvent<HTMLInputElement> ) => {
-	setSearchTerm( e.currentTarget.value )
-} 
-
-const getJokes = async () => {
-	const {data} = await axios.get( `https://v2.jokeapi.dev/joke/Any?amount=10`)
-		setJokes( data.jokes )
-}
+	const [jokes, setJokes] = useState<IJoke[]>([])
+	const [searchTerm, setSearchTerm] = useState("")
+	const [loading, setLoading] = useState<boolean>(false)
 
 
 
-useEffect(()=> {
-	getJokes()
-}, [])
+	const getJokes = useCallback(async () => {
+		const { data } = await axios.get(`https://v2.jokeapi.dev/joke/Any?contains=${searchTerm}&amount=10`)
+		setJokes(data.jokes)
+	}, [searchTerm])
+
+	useEffect(() => {
+		getJokes()
+	}, [getJokes])
+
+
+	const onChangeSearch = (e: React.FormEvent<HTMLInputElement>) => {
+		setSearchTerm(e.currentTarget.value)
+	}
 
 
 	return (
-	<>
-		<div className="search">
-			<SearchForm searchTerm={ searchTerm } onChangeSearch={ onChangeSearch } />
-		</div>
-		<div className="jokes">
-		{ jokes.map( joke =>  <JokeItem key={ joke.id } { ...joke }  />)}
-		</div>
-	</>			
+		<>
+			<div className="search">
+				<SearchForm searchTerm={searchTerm} onChangeSearch={onChangeSearch} />
+			</div>
+			<div className="jokes">
+				{jokes ? jokes.map(joke => <JokeItem key={joke.id} 
+				{...joke} />) : (
+				<p> Sorry, we don't have such a joke. Try again please :)
+				</p>)
+				}
+			</div>
+		</>
 	)
 }
 
