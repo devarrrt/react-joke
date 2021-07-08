@@ -7,7 +7,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+*{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	line-height: 1;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+
+.joke-item{
+	padding: 10px;
+	margin: 10px;
+	border: 1px solid #ccc;
 }
