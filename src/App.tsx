@@ -3,7 +3,7 @@ import axios from 'axios'
 import { IJoke } from './types';
 import JokeItem from './components/JokeItem';
 import { SearchForm } from './components';
-
+import { IFavJoke } from './components/JokeItem'
 
 
 
@@ -30,7 +30,7 @@ const App = () => {
 	}, [searchTerm])
 
 
-	const addJoke = ( joke: any ) => {
+	const addJoke = ( joke: IFavJoke ) => {
 		setFavorite(( prev ) =>{
 			const item = [ ...prev, joke.joke || joke.setup]
 			localStorage.setItem( 'joke', JSON.stringify(item))

@@ -2,17 +2,22 @@ import React, { useState } from 'react'
 import { IJoke } from './../types';
 
 
-
-interface IJokeItem extends IJoke {
-	addJoke: (favJoke: any)=>void
+export interface IFavJoke {
+	id: number
+	setup: string,
+	joke: string
 }
 
 
-//@ts-ignore
+interface IJokeItem extends IJoke {
+	addJoke: (favJoke: IFavJoke)=> void
+}
+
+
 const JokeItem: React.FC<IJokeItem> = ({ id, setup, joke, addJoke }) => {
 	const [likes, setLikes] = useState<boolean>(false)
 
-	const addFavorite = (id: any) => {
+	const addFavorite = () => {
 		setLikes(true)
 		const favJoke = {
 			id,
@@ -31,7 +36,7 @@ const JokeItem: React.FC<IJokeItem> = ({ id, setup, joke, addJoke }) => {
 				{joke ? joke : setup}
 			</p>
 			<button
-				onClick={()=> addFavorite(id)}
+				onClick={addFavorite}
 				className={likes ? 'joke_item-button likes' : 'joke_item-button'}>
 				Like
 			</button>
