@@ -79,7 +79,7 @@ const App = () => {
 
 						<div className="jokes_favorite">
 						<h5> Favorite jokes { favorite.length > 0 && favorite.length }: </h5>	
-							<div> {favoriteJokesRender.map( (el: any, index: any) => 
+							<div> { favoriteJokesRender && favoriteJokesRender.map( (el: any, index: any) => 
 							<p className="jokes_favorite-item"  key={ index }> { el } </p> )} 
 							</div>  
 						</div>
