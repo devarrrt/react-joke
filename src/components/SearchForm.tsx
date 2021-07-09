@@ -7,6 +7,7 @@ interface ISearchForm {
 	onChangeSearch: (e: React.FormEvent<HTMLInputElement>)=>void
 }
 
+
 const SearchForm:React.FC<ISearchForm> = ({ searchTerm, onChangeSearch }) => {
 	return (
 		<div className="search">
