@@ -10,7 +10,6 @@ body {
 *{
 	padding: 0;
 	margin: 0;
-	list-style: none;
 	line-height: 1.2;
 }
 
@@ -39,8 +38,14 @@ code {
 .jokes{
 	&_favorite{
 		text-align: center;
-		margin-top: 30px;
+		margin-top: 50px;
 		font-size: 24px;
+
+		&-item{
+			font-size: 15px;
+			margin: 15px;
+			border-left: 10px solid #ccc
+		};
 
 	}
 }

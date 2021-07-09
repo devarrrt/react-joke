@@ -4,27 +4,37 @@ import { IJoke } from './../types';
 
 
 interface IJokeItem extends IJoke {
-	onChangeFavorite: ( ) => void
+	addJoke: (favJoke: any)=>void
 }
 
 
+//@ts-ignore
+const JokeItem: React.FC<IJokeItem> = ({ id, setup, joke, addJoke }) => {
+	const [likes, setLikes] = useState<boolean>(false)
 
-const JokeItem: React.FC<IJokeItem> = ({ setup, joke, onChangeFavorite }) => {
-const [likes, setLikes] = useState<boolean>(false)
+	const addFavorite = (id: any) => {
+		setLikes(true)
+		const favJoke = {
+			id,
+			setup,
+			joke
+		}
+		addJoke( favJoke )
+	}
 
-const addFavorite = () => {
-	setLikes( !likes )
-	onChangeFavorite()
-}
+
+
 
 	return (
-		<div className={ likes ? 'joke_item favorite' : 'joke_item' } >
-		<p className="joke_item-text">
-				{ setup ? setup : joke } 
-		</p> 
-		<button onClick={ addFavorite } 
-		className={ likes ? 'joke_item-button likes' : 'joke_item-button' }>
-			 Like </button> 
+		<div className={likes ? 'joke_item favorite' : 'joke_item'} >
+			<p className="joke_item-text">
+				{joke ? joke : setup}
+			</p>
+			<button
+				onClick={()=> addFavorite(id)}
+				className={likes ? 'joke_item-button likes' : 'joke_item-button'}>
+				Like
+			</button>
 		</div>
 	)
 }

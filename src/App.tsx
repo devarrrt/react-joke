@@ -11,7 +11,7 @@ const App = () => {
 	const [jokes, setJokes] = useState<IJoke[]>([])
 	const [searchTerm, setSearchTerm] = useState<string>("")
 	const [loading, setLoading] = useState<boolean>(false)
-	const [favoriteCount, setFavoriteCount] = useState<number>(0)
+	const [favorite, setFavorite] = useState<string[]>([])
 
 
 
@@ -30,31 +30,44 @@ const App = () => {
 	}, [searchTerm])
 
 
-	useEffect(() => {
+	const addJoke = ( joke: any ) => {
+		setFavorite(( prev ) =>{
+			const item = [ ...prev, joke.joke || joke.setup]
+			localStorage.setItem( 'joke', JSON.stringify(item))
+			return item
+			})		
+		}
+
+		//@ts-ignore
+ const favoriteJokesRender = JSON.parse( localStorage.getItem('joke' ))
+
+
+	useEffect(  () => {
 		getJokes()
 	}, [getJokes])
 
 	const onChangeSearch = (e: React.FormEvent<HTMLInputElement>) => {
-		setSearchTerm(e.currentTarget.value)
+	 	setSearchTerm(e.currentTarget.value)
 	}
 
-	const onChangeFavorite = () => {
-		setFavoriteCount(prev => prev + 1)
-	}
+
+
+
 
 
 
 	return (
 		<div className="app">
 			<div className="search">
-				<SearchForm searchTerm={searchTerm} onChangeSearch={onChangeSearch} />
+				<SearchForm searchTerm={searchTerm} 
+				onChangeSearch={onChangeSearch} />
 			</div>
 			{loading ?
 				<p className="center" > Loading... </p> : (
 					<div className="jokes">
 						{jokes ? jokes.map(joke =>
 							<JokeItem
-								onChangeFavorite={onChangeFavorite}
+							addJoke={ addJoke }
 								key={joke.id}
 								{...joke}
 							/>) : (
@@ -65,7 +78,10 @@ const App = () => {
 						}
 
 						<div className="jokes_favorite">
-							Favorite jokes: <b>{ favoriteCount }</b>	
+						<h5> Favorite jokes { favorite.length > 0 && favorite.length }: </h5>	
+							<div> {favoriteJokesRender.map( (el: any, index: any) => 
+							<p className="jokes_favorite-item"  key={ index }> { el } </p> )} 
+							</div>  
 						</div>
 					</div>
 				)}
