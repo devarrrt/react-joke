@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
-import { IJoke } from './../types';
+import { IFavJoke, IJoke } from './../types';
 
 
-export interface IFavJoke {
-	id: number
-	setup: string,
-	joke: string
-}
+
 
 
 interface IJokeItem extends IJoke {

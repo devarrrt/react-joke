@@ -3,7 +3,7 @@ import axios from 'axios'
 import { IJoke } from './types';
 import JokeItem from './components/JokeItem';
 import { SearchForm } from './components';
-import { IFavJoke } from './components/JokeItem'
+import { IFavJoke } from './types'
 
 
 
@@ -30,24 +30,24 @@ const App = () => {
 	}, [searchTerm])
 
 
-	const addJoke = ( joke: IFavJoke ) => {
-		setFavorite(( prev ) =>{
-			const item = [ ...prev, joke.joke || joke.setup]
-			localStorage.setItem( 'joke', JSON.stringify(item))
+	const addJoke = (joke: IFavJoke) => {
+		setFavorite((prev) => {
+			const item = [...prev, joke.joke || joke.setup]
+			localStorage.setItem('joke', JSON.stringify(item))
 			return item
-			})		
-		}
+		})
+	}
 
-		//@ts-ignore
- const favoriteJokesRender = JSON.parse( localStorage.getItem('joke' ))
+	//@ts-ignore
+	const favoriteJokesList = JSON.parse(localStorage.getItem('joke'))
 
 
-	useEffect(  () => {
+	useEffect(() => {
 		getJokes()
 	}, [getJokes])
 
 	const onChangeSearch = (e: React.FormEvent<HTMLInputElement>) => {
-	 	setSearchTerm(e.currentTarget.value)
+		setSearchTerm(e.currentTarget.value)
 	}
 
 
@@ -59,15 +59,15 @@ const App = () => {
 	return (
 		<div className="app">
 			<div className="search">
-				<SearchForm searchTerm={searchTerm} 
-				onChangeSearch={onChangeSearch} />
+				<SearchForm searchTerm={searchTerm}
+					onChangeSearch={onChangeSearch} />
 			</div>
 			{loading ?
 				<p className="center" > Loading... </p> : (
 					<div className="jokes">
 						{jokes ? jokes.map(joke =>
 							<JokeItem
-							addJoke={ addJoke }
+								addJoke={addJoke}
 								key={joke.id}
 								{...joke}
 							/>) : (
@@ -78,10 +78,16 @@ const App = () => {
 						}
 
 						<div className="jokes_favorite">
-						<h5> Favorite jokes { favorite.length > 0 && favorite.length }: </h5>	
-							<div> { favoriteJokesRender && favoriteJokesRender.map( (el: any, index: any) => 
-							<p className="jokes_favorite-item"  key={ index }> { el } </p> )} 
-							</div>  
+
+							{favoriteJokesList && (
+								<>
+									<h5> Favorite jokes {favorite.length > 0 && favorite.length}: </h5>
+									<div> {favoriteJokesList.map((el: IFavJoke, index: number) =>
+										<p className="jokes_favorite-item" key={index}> {el} </p>)}
+									</div>
+								</>
+							)}
+
 						</div>
 					</div>
 				)}

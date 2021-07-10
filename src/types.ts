@@ -11,6 +11,9 @@ export interface IJoke {
 	type: string
 }
 
-export interface IJokes {
-	items: IJoke[]
+
+export interface IFavJoke {
+	id: number
+	setup: string,
+	joke: string
 }
